@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet,Text,View,TouchableOpacity,Image ,FlatList} from 'react-native';
 import colors from './Colors';
 import tempData from './tempData';
+import TodoList from './component/TodoList';
 export default class App extends React.Component {
   render(){
     return(
@@ -30,9 +31,7 @@ export default class App extends React.Component {
               horizontal={true}
               showHorizontalScrollIndicator ={false}
               renderItem={({item}) => (
-                <View>
-                <Text>{item.name}</Text>
-                </View>
+              <TodoList  list={item}/>
               )
             }
               />
