@@ -1,6 +1,7 @@
 import React from 'react';
-import {StyleSheet,Text,View,TouchableOpacity,Image} from 'react-native';
+import {StyleSheet,Text,View,TouchableOpacity,Image ,FlatList} from 'react-native';
 import colors from './Colors';
+import tempData from './tempData';
 export default class App extends React.Component {
   render(){
     return(
@@ -21,6 +22,22 @@ export default class App extends React.Component {
                   />
               </TouchableOpacity>
           </View>
+
+          <View style={{height:275,paddingLeft:32}}>
+              <FlatList
+              data={tempData}
+              keyExtractor={item => item.name}
+              horizontal={true}
+              showHorizontalScrollIndicator ={false}
+              renderItem={({item}) => (
+                <View>
+                <Text>{item.name}</Text>
+                </View>
+              )
+            }
+              />
+          </View>
+
       </View>
       );
   }
