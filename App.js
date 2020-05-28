@@ -1,12 +1,27 @@
 import React from 'react';
-import {StyleSheet,Text,View,TouchableOpacity,Image ,FlatList} from 'react-native';
+import {StyleSheet,Text,View,TouchableOpacity,Image ,FlatList,Modal} from 'react-native';
 import colors from './Colors';
 import tempData from './tempData';
 import TodoList from './component/TodoList';
+import AddListModal from './component/AddListModal';
 export default class App extends React.Component {
+
+state ={
+  addTodoVisible:false
+};
+toggleAddTodoModal(){
+  this.setState({addTodoVisible: !this.state.addTodoVisible});
+}
   render(){
     return(
       <View style={styles.container}>
+       <Modal
+       animationType='type'
+       visible={this.state.addTodoVisible}
+       onRequestClose={() => this.toggleAddTodoModal()}>
+
+        <AddListModal />
+       </Modal>
           <View style={{flexDirection: 'row'}}>
             <View style={styles.divider} />
               <Text style={styles.title}>
@@ -16,7 +31,7 @@ export default class App extends React.Component {
           </View>
 
           <View style={{marginVertical: 30}}>
-              <TouchableOpacity style={styles.addList}>
+              <TouchableOpacity style={styles.addList} onPress={() => this.toggleAddTodoModal()}>
                  <Image
                  style={{width:30,height:30}}
                  source={require('./assests/plus.png')}
