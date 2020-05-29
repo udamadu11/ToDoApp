@@ -7,7 +7,7 @@ import AddListModal from './component/AddListModal';
 export default class App extends React.Component {
 
 state ={
-  addTodoVisible:false
+  addTodoVisible:true
 };
 toggleAddTodoModal(){
   this.setState({addTodoVisible: !this.state.addTodoVisible});
@@ -16,11 +16,11 @@ toggleAddTodoModal(){
     return(
       <View style={styles.container}>
        <Modal
-       animationType='type'
+       animationType='slide'
        visible={this.state.addTodoVisible}
        onRequestClose={() => this.toggleAddTodoModal()}>
 
-        <AddListModal />
+        <AddListModal closeModal={() =>this.toggleAddTodoModal()} />
        </Modal>
           <View style={{flexDirection: 'row'}}>
             <View style={styles.divider} />
