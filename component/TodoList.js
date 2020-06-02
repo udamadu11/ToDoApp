@@ -1,6 +1,6 @@
 import React from 'react';
 import {View,Text,StyleSheet,Modal,TouchableOpacity} from 'react-native';
-
+import TodoModal from './TodoModal';
 export default class TodoList extends React.Component {
 
 state = {
@@ -23,7 +23,7 @@ toggleListModal(){
       visible= {this.state.showListVisible}
       onRequestClose={()=> this.toggleListModal()}>
 
-      <View><Text>screen</Text></View>
+      <TodoModal list={list} closeModal={() =>this.toggleListModal()} />
       </Modal>
       <TouchableOpacity style={[styles.listContainer, {backgroundColor:list.color}]} onPress={()=>this.toggleListModal()}>
         <Text style={styles.listTitle} numberOfLine={1}>
