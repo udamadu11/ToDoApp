@@ -7,7 +7,8 @@ import AddListModal from './component/AddListModal';
 export default class App extends React.Component {
 
 state ={
-  addTodoVisible:false
+  addTodoVisible:false,
+  lists:tempData
 };
 
 toggleAddTodoModal(){
@@ -18,6 +19,9 @@ renderList = list =>{
   return<TodoList list={list} />
 };
 
+addList = list => {
+  this.setState({lists: [...this.state.lists, {...list, id: this.state.lists.length + 1, todos: [] }]});
+};
   render(){
     return(
       <View style={styles.container}>
@@ -26,7 +30,7 @@ renderList = list =>{
        visible={this.state.addTodoVisible}
        onRequestClose={() => this.toggleAddTodoModal()}>
 
-        <AddListModal closeModal={() =>this.toggleAddTodoModal()} />
+        <AddListModal closeModal={() =>this.toggleAddTodoModal()} addList={this.addList} />
        </Modal>
           <View style={{flexDirection: 'row'}}>
             <View style={styles.divider} />
@@ -47,7 +51,7 @@ renderList = list =>{
 
           <View style={{height:275,paddingLeft:32}}>
               <FlatList
-              data={tempData}
+              data={this.state.lists}
               keyExtractor={item => item.name}
               horizontal={true}
               showHorizontalScrollIndicator ={false}
