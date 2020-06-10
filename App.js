@@ -23,7 +23,13 @@ addList = list => {
   this.setState({lists: [...this.state.lists, {...list, id: this.state.lists.length + 1, todos: [] }]});
 };
 
-updateList = list =>{}
+updateList = list =>{
+  this.setState({
+    lists: this.state.lists.map(item =>{
+      return item.id === list.id ? list : item;
+    })
+  });
+}
 
   render(){
     return(
@@ -59,6 +65,7 @@ updateList = list =>{}
               horizontal={true}
               showHorizontalScrollIndicator ={false}
               renderItem={({item}) => this.renderList(item) }
+              keyboardShouldPersistTaps="always"
               />
           </View>
 

@@ -1,4 +1,4 @@
-import { Text,View,StyleSheet ,SafeAreaView,TouchableOpacity,Image,FlatList,KeyboardAvoidingView,TextInput} from "react-native";
+import { Text,View,StyleSheet ,SafeAreaView,TouchableOpacity,Image,FlatList,KeyboardAvoidingView,TextInput,Keyboard} from "react-native";
 import React, { Component } from 'react';
 import colors from '../Colors';
 import Icon from 'react-native-ionicons'
@@ -7,10 +7,26 @@ export default class TodoModal extends React.Component{
     state = {
         newTodo : ""
     };
-    renderTodo = todo => {
+
+    toggleTodoCompleted = index => {
+        let list = this.props.list;
+        list.todos[index].completed = !list.todos[index].completed;
+        this.props.updateList(list);
+    }
+
+    addTodo = () => {
+        let list = this.props.list;
+        list.todos.push({title: this.state.newTodo, completed: false});
+
+        this.props.updateList(list);
+        this.setState({ newTodo: "" });
+        Keyboard.dismiss();
+    }
+
+    renderTodo = (todo,index) => {
         return(
             <View style={styles.todoContainer}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => this.toggleTodoCompleted(index)}>
                 <Icon 
                 name = {todo.completed ? "md-square" : "md-square-outline"}
                 size={24} color={colors.grey} 
@@ -44,15 +60,19 @@ export default class TodoModal extends React.Component{
                 <View style={[styles.section ,{flex:3} ]}>
                     <FlatList
                         data = {list.todos}
-                        renderItem = {({item}) =>this.renderTodo(item)}
+                        renderItem = {({item,index}) =>this.renderTodo(item,index)}
                         keyExtractor = {item => item.title}
                         contentContainerStyle={{paddingHorizontal:32,paddingVertical:64}}
                         showsVerticalScrollIndicator={false}
                     />
                 </View>
                 <View style={[styles.section , styles.footer]}>
-                    <TextInput style={[styles.input, {borderBottomColor:list.color}]} />
-                    <TouchableOpacity style={styles.addTodo, {backgroundColor:list.color}}>
+                    <TextInput 
+                    style={[styles.input, {borderBottomColor:list.color}]}
+                    onChangeText={text => this.setState({ newTodo: text })}
+                    value={this.state.newTodo}
+                    />
+                    <TouchableOpacity style={styles.addTodo, {backgroundColor:list.color}} onPress={() => this.addTodo()}>
                     <Image
                         style={{width:30,height:30}}
                         source={require('../assests/plus.png')}
@@ -99,7 +119,7 @@ footer:{
 },
 input:{
     flex:1,
-    height:32,
+    height:40,
     borderWidth:StyleSheet.hairlineWidth,
     borderRadius:6,
     marginRight:8,

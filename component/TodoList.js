@@ -36,11 +36,11 @@ toggleListModal(){
 
         <View>
           <View style={{alignItems: 'center'}}>
-            <Text style={styles.count}>{completedCount}</Text>
+            <Text style={styles.count}>{remaingCount}</Text>
             <Text style={styles.subtitle}>Remaining</Text>
           </View>
           <View style={{alignItems: 'center'}}>
-            <Text style={styles.count}>{remaingCount}</Text>
+            <Text style={styles.count}>{completedCount}</Text>
             <Text style={styles.subtitle}>Completed</Text>
           </View>
         </View>
