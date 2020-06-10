@@ -16,12 +16,15 @@ toggleAddTodoModal(){
 };
 
 renderList = list =>{
-  return<TodoList list={list} />
+  return<TodoList list={list} updateList={this.updateList} />
 };
 
 addList = list => {
   this.setState({lists: [...this.state.lists, {...list, id: this.state.lists.length + 1, todos: [] }]});
 };
+
+updateList = list =>{}
+
   render(){
     return(
       <View style={styles.container}>

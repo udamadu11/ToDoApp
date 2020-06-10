@@ -5,9 +5,7 @@ import Icon from 'react-native-ionicons'
 
 export default class TodoModal extends React.Component{
     state = {
-        name: this.props.list.name,
-        color: this.props.list.color,
-        todos: this.props.list.todos
+        newTodo : ""
     };
     renderTodo = todo => {
         return(
@@ -23,9 +21,11 @@ export default class TodoModal extends React.Component{
         );
     };
     render(){
-        const taskCount = this.state.todos.length;
-        const completedCount = this.state.todos.filter(todo => todo.completed).length;
+        const list = this.props.list;
+        const taskCount = list.todos.length;
+        const completedCount = list.todos.filter(todo => todo.completed).length;
         return(
+            <KeyboardAvoidingView style={{flex:1}} behavior="padding">
             <SafeAreaView style={styles.container}>
                 <TouchableOpacity style={{position:'absolute',top:10,right:5}} onPress={this.props.closeModal}>
                     <Image
@@ -33,9 +33,9 @@ export default class TodoModal extends React.Component{
                          source={require('../assests/close.png')}
                     />
                 </TouchableOpacity>
-                <View style={[styles.section, styles.header,{borderBottomColor:this.state.color}]}>
+                <View style={[styles.section, styles.header,{borderBottomColor:list.color}]}>
                     <View>
-                      <Text style={styles.title}>{this.state.name}</Text>
+                      <Text style={styles.title}>{list.name}</Text>
                       <Text style={styles.taskCount}>
                             {completedCount} of {taskCount} tasks
                       </Text>
@@ -43,23 +43,24 @@ export default class TodoModal extends React.Component{
                 </View>
                 <View style={[styles.section ,{flex:3} ]}>
                     <FlatList
-                        data = {this.state.todos}
+                        data = {list.todos}
                         renderItem = {({item}) =>this.renderTodo(item)}
                         keyExtractor = {item => item.title}
                         contentContainerStyle={{paddingHorizontal:32,paddingVertical:64}}
                         showsVerticalScrollIndicator={false}
                     />
                 </View>
-                <KeyboardAvoidingView style={[styles.section , styles.footer]} behavior="padding">
-                    <TextInput style={[styles.input, {borderBottomColor:this.state.color}]} />
-                    <TouchableOpacity style={styles.addTodo, {backgroundColor:this.state.color}}>
+                <View style={[styles.section , styles.footer]}>
+                    <TextInput style={[styles.input, {borderBottomColor:list.color}]} />
+                    <TouchableOpacity style={styles.addTodo, {backgroundColor:list.color}}>
                     <Image
                         style={{width:30,height:30}}
                         source={require('../assests/plus.png')}
                   />    
                     </TouchableOpacity>
-                </KeyboardAvoidingView>
+                </View>
             </SafeAreaView>
+            </KeyboardAvoidingView>
         );
     };
 }
