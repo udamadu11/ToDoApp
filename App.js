@@ -1,16 +1,19 @@
 import React from 'react';
-import {StyleSheet,Text,View,TouchableOpacity,Image ,FlatList,Modal} from 'react-native';
+import {StyleSheet,Text,View,TouchableOpacity,Image ,FlatList,Modal,YellowBox} from 'react-native';
 import colors from './Colors';
 import tempData from './tempData';
 import TodoList from './component/TodoList';
 import AddListModal from './component/AddListModal';
 import Fire from './Fire';
+YellowBox.ignoreWarnings(['Setting a timer']);
+
 export default class App extends React.Component {
 
 state ={
   addTodoVisible:false,
   lists:tempData,
-  user:{}
+  user:{},
+  loading: true
 };
 
 componentDidMount(){
@@ -18,6 +21,12 @@ componentDidMount(){
     if(error){
       return alert("something went wrong");
     }
+
+    firebase.getLists(lists => {
+      this.setState({ lists, user}, () =>{
+        this.setState({loading:false});
+      });
+    });
 
     this.setState({user});
   });
